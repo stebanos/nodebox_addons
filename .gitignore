@@ -1,0 +1,4 @@
+*.pyc
+.redcar
+
+settings_local.py
