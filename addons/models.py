@@ -77,3 +77,13 @@ class Version(models.Model):
             self.pub_date = datetime.datetime.now()
         super(Version, self).save(*args, **kwargs)
         
+        
+class File(models.Model):
+    version = models.ForeignKey(Version)
+    filename = models.CharField(max_length=255)
+    size = models.PositiveIntegerField(default=0) # kilobytes
+    
+    def __unicode__(self):
+        return "%s - %s" % (unicode(self.version), self.filename)
+        
+        

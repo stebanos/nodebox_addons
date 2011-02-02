@@ -1,5 +1,5 @@
 from django.contrib import admin
-from addons.models import Addon, Category, AddonCategory, Version
+from addons.models import Addon, Category, AddonCategory, Version, File
 
 
 class AddonCategoryInline(admin.TabularInline):
@@ -21,7 +21,11 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 
+class FileInline(admin.TabularInline):
+    model = File
+    
+
 class VersionAdmin(admin.ModelAdmin):
-    pass
+    inlines = (FileInline,)
     
 admin.site.register(Version, VersionAdmin)
