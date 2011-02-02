@@ -29,3 +29,32 @@ class Addon(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('addons_addon_detail', (), { 'object_id': self.id })
+        
+        
+class Category(models.Model):
+    name = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+    description_html = models.TextField(editable=False)
+    
+    addons = models.ManyToManyField(Addon, through='AddonCategory')
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = 'Categories'
+        
+    def __unicode__(self):
+        return self.name
+        
+    def save(self, *args, **kwargs):
+        self.description_html = markdown(self.description)
+        super(Category, self).save(*args, **kwargs)
+
+        
+class AddonCategory(models.Model):
+    addon = models.ForeignKey(Addon)
+    category = models.ForeignKey(Category)
+    
+    class Meta:
+        unique_together = ('addon', 'category')
+        
