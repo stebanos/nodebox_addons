@@ -1,5 +1,5 @@
 from django.contrib import admin
-from addons.models import Addon, Category, AddonCategory
+from addons.models import Addon, Category, AddonCategory, Version
 
 
 class AddonCategoryInline(admin.TabularInline):
@@ -20,3 +20,8 @@ class CategoryAdmin(admin.ModelAdmin):
     
 admin.site.register(Category, CategoryAdmin)
 
+
+class VersionAdmin(admin.ModelAdmin):
+    pass
+    
+admin.site.register(Version, VersionAdmin)

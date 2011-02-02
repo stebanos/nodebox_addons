@@ -58,3 +58,22 @@ class AddonCategory(models.Model):
     class Meta:
         unique_together = ('addon', 'category')
         
+        
+class Version(models.Model):
+    addon = models.ForeignKey(Addon)
+    string = models.CharField(max_length=200)
+    pub_date = models.DateTimeField(editable=False)
+    releasenotes = models.TextField()
+    releasenotes_html = models.TextField(editable=False)
+
+    class Meta:
+        ordering = ['-pub_date']
+        
+    def __unicode__(self):
+        return "%s - %s" % (unicode(self.addon), self.string)
+    
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.pub_date = datetime.datetime.now()
+        super(Version, self).save(*args, **kwargs)
+        
